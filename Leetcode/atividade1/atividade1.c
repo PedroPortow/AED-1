@@ -40,7 +40,7 @@ int main(){
 
 	printf( "Elementos: %d %d\n", answer[0], answer[1] );
 
-	free( p) ;
+	free( p ) ;
 	free( answer );
 	free( returnSize );
 
