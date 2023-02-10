@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-
 /*
 
  Os numeros de maior valor e mais distantes um do outro
@@ -18,23 +16,21 @@
 
 */
 
-
-
-int maxArea(int* height, int heightSize){
+int MaxArea( int* height, int heightSize ){
   int width, rightPoint, leftPoint, area = 0, maxArea = 0, highestNumber;
 
 
-  for(int i = 0; i < heightSize; i++){
-    for(int j = heightSize; j >= 0; j--){
-      if(height[i] < height[j]){
+  for( int i = 0; i < heightSize; i++ ) {
+    for( int j = heightSize; j >= 0; j-- ) {
+      if( height[i] < height[j] ) {
         highestNumber = height[i];
-      } else{
+      } else {
         highestNumber = height[j];
       }
   
-      area = highestNumber * (j - i);
+      area = highestNumber * ( j - i );
 
-      if(maxArea < area){
+      if( maxArea < area ) {
         maxArea = area;
       }
     } 
@@ -44,22 +40,21 @@ int maxArea(int* height, int heightSize){
 }
 
 int main(){
-  int *height, heightSize, answer;
+	int *height, heightSize, answer;
 
-  printf("Quantos n o array vai ter \n");
-  scanf("%d", &heightSize);
+	printf( "Quantos n o array vai ter \n" );
+	scanf( "%d", &heightSize );
+
+	height = (int *)malloc( heightSize * sizeof(int) );
+
+	for(int i = 0; i < heightSize; i++) {
+		printf( "Digite o n para posição %d: ", i );
+		scanf( "%d", &height[i] );
+	}
+
+	answer = MaxArea( height, heightSize );
 
 
-  height = (int *)malloc(heightSize * sizeof(int));
-
-  for(int i = 0; i < heightSize; i++){
-    printf("Digite o n para posição %d: ", i);
-    scanf("%d", &height[i]);
-  }
-
-  answer = maxArea(height, heightSize);
-
-  printf("%d", answer);
-
-  return 0;
+	printf( "%d", answer );
+	return 0;
 }

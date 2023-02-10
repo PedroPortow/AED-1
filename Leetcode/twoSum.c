@@ -1,48 +1,48 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int* twoSum(int* nums, int numsSize, int target, int* returnSize){
-  *returnSize = 2; // [ , ]
-  int *arrayReturn = (int *) malloc(2*(sizeof(int)));
-  
-  for(int i = 0; i < numsSize; i++){
-    for(int j = i + 1; j < numsSize; j++){
-      if(nums[i] + nums[j] == target){
-        arrayReturn[0] = i;
-        arrayReturn[1] = j;
-        return arrayReturn;
-      }
-    }
-  }
+int* TwoSum( int* nums, int numsSize, int target, int* returnSize ) {
+	*returnSize = 2; // [ , ] 
+	int *arrayReturn = ( int * ) malloc( 2* ( sizeof (int) ));
+	
+	for( int i = 0; i < numsSize; i++ ) {
+		for( int j = i + 1; j < numsSize; j++ ) {
+			if( nums[i] + nums[j] == target ) {
+				arrayReturn[0] = i;
+				arrayReturn[1] = j;
+				return arrayReturn;
+			}
+		}
+	}
 
-  return arrayReturn;
+	return arrayReturn;
 }
 
 int main(){
-  int *p, qtd, *returnSize , target, *answer;
+	int *p, qtd, *returnSize , target, *answer;
 
-  printf("Digite a quantidade de elementos do Array: \n");
-  scanf("%d", &qtd);
+	printf( "Digite a quantidade de elementos do Array: \n" );
+	scanf( "%d", &qtd );
 
-  p = (int *)malloc(qtd * sizeof(int));
+	p = (int *)malloc(qtd * sizeof(int));
 
-  for(int i = 0; i < qtd; i++){
-    printf("Digite o elemento para posição %d: \n", i);
-    scanf("%d", &p[i]);
-  }
+	for( int i = 0; i < qtd; i++ ) {
+		printf( "Digite o elemento para posição %d: \n", i );
+		scanf( "%d", &p[i] );
+	}
 
-  printf("Digite o elemento target: \n");
-  scanf("%d", &target);
+	printf( "Digite o elemento target: \n" );
+	scanf( "%d", &target );
 
-  returnSize = (int *) malloc(sizeof(int));
+	returnSize = (int *) malloc( sizeof(int) );
 
-  answer = twoSum(p, qtd, target, returnSize);
+	answer = TwoSum( p, qtd, target, returnSize );
 
-  printf("Elementos: %d %d\n", answer[0], answer[1]);
+	printf( "Elementos: %d %d\n", answer[0], answer[1] );
 
-  free(p);
-  free(answer);
-  free(returnSize);
+	free( p) ;
+	free( answer );
+	free( returnSize );
 
-  return 0;
+	return 0;
 }
