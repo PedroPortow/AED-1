@@ -19,16 +19,16 @@ int* TwoSum( int* nums, int numsSize, int target, int* returnSize ) {
 }
 
 int main(){
-	int *p, qtd, *returnSize , target, *answer;
+	int *pNumbers, qtd, *returnSize , target, *answer;
 
 	printf( "Digite a quantidade de elementos do Array: \n" );
 	scanf( "%d", &qtd );
 
-	p = (int *)malloc(qtd * sizeof(int));
+	pNumbers = (int *)malloc(qtd * sizeof(int));
 
 	for( int i = 0; i < qtd; i++ ) {
-		printf( "Digite o elemento para posição %d: \n", i );
-		scanf( "%d", &p[i] );
+		printf( "Digite o elemento para posicao %d: \n", i );
+		scanf( "%d", &pNumbers[i] );
 	}
 
 	printf( "Digite o elemento target: \n" );
@@ -36,11 +36,15 @@ int main(){
 
 	returnSize = (int *) malloc( sizeof(int) );
 
-	answer = TwoSum( p, qtd, target, returnSize );
+	answer = TwoSum( pNumbers, qtd, target, returnSize );
 
-	printf( "Elementos: %d %d\n", answer[0], answer[1] );
+    printf("========== \n");
 
-	free( p ) ;
+	for(int i = 0; i < *returnSize; i++){
+        printf("%d\n", answer[i]);
+    }
+
+	free( pNumbers ) ;
 	free( answer );
 	free( returnSize );
 

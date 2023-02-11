@@ -1,9 +1,11 @@
 Nome: Pedro Luís Rodrigues Porto
 Discord: Pedro Porto #2950
 
-Atividade: Dado um array de inteiros e um inteiro target,retornar os índices dos dois números que somados são iguais ao target.
+Atividade: Dado um array de inteiros e um inteiro target, retornar os índices dos dois números do array que somados são iguais ao target.
 
 Link Leetcode: https://leetcode.com/problems/two-sum/
+
+Regras de código: https://fabiensanglard.net/fd_proxy/doom3/CodeStyleConventions.pdf
 
 Funciona: Digitar quantidade de elementos do array, depois os elementos desse array e o elemento target. Caso dois elementos do array somados sejam iguais ao target será retornado os índices desses elementos.
 
