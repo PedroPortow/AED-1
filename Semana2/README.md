@@ -11,5 +11,7 @@ Regras de código: https://fabiensanglard.net/fd_proxy/doom3/CodeStyleConvention
 Para compilar: gcc ./atividade2.c -o atividade2
 Para executar: ./atividade2
 
+exercicios2.c => Exercicios feitos na aula de 17/02
+
 Observações: No exercício 2, o Dr.Memory reportou um erro na função RemoverNome (arquivo de logs estão no repositório), porém não consegui resolver esse erro. Acho que tem alguma coisa a ver com o caractere que indica final da string '\0' porém não sei onde que ele pode estar faltando.
 
