@@ -1,2 +1,6 @@
 *.exe
+*.plist
 .vscode
+
+
+exercicio3.dSYM/

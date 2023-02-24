@@ -72,10 +72,11 @@ void menu() {
 
 
 void *adicionarPessoa(void *pBuffer, int *qtdPessoas) {
-    Pessoa *pessoa;
+    Pessoa *pessoa = NULL;
+    pessoa = malloc(sizeof(Pessoa));
 
     char nome[NAME_SIZE];
-    int idade;
+    int idade = 0;
     char telefone[TEL_SIZE];
 
     pBuffer = realloc(pBuffer, sizeof(int) + (*qtdPessoas + 1) * sizeof(Pessoa)); //alocando memória pra nova pessoa
@@ -90,7 +91,7 @@ void *adicionarPessoa(void *pBuffer, int *qtdPessoas) {
     printf("Nome: ");
     // scanf("%s", nome);
     fgets(nome, NAME_SIZE, stdin);
-    nome[strcspn(nome, "\n")] = '\0';
+    nome[strcspn(nome, "\n")] = 0;
 
     printf("Idade: ");
     scanf("%d", &idade);
@@ -99,7 +100,7 @@ void *adicionarPessoa(void *pBuffer, int *qtdPessoas) {
     printf("Telefone: ");
     // scanf("%s", telefone);
     fgets(telefone, TEL_SIZE, stdin);
-    telefone[strcspn(telefone, "\n")] = '\0';
+    telefone[strcspn(telefone, "\n")] = 0;
 
     sprintf(pessoa[*qtdPessoas].nome, "%s", nome);
     pessoa[*qtdPessoas].idade = idade;
@@ -179,7 +180,7 @@ void* removerPessoa(void *pBuffer, int *qtdPessoas){
 void buscarPessoa(void *pBuffer, int *qtdPessoas){
   bool achouPessoa = false;
 
-  Pessoa *pessoas;
+  Pessoa *pessoas = NULL;
   pessoas = (Pessoa *) (pBuffer + sizeof(int));
 
   char pessoaBuscar[NAME_SIZE];
@@ -191,7 +192,7 @@ void buscarPessoa(void *pBuffer, int *qtdPessoas){
 
   printf("Nome da pessoa para buscar: \n");
   fgets(pessoaBuscar, NAME_SIZE, stdin);
-  pessoaBuscar[strcspn(pessoaBuscar, "\n")] = '\0';
+  pessoaBuscar[strcspn(pessoaBuscar, "\n")] = 0;
 
   for(int i = 0 ; i < *qtdPessoas; i++){
     if(strcmp(pessoas[i].nome, pessoaBuscar) == 0){
