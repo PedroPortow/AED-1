@@ -2,5 +2,8 @@
 *.plist
 .vscode
 
-
+.DS_Store
 exercicio3.dSYM/
+trabalho.dSYM/
+trabalho
+exercicios
