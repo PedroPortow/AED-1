@@ -6,6 +6,7 @@
  [0, 5 10, 15, 17, 25]
  [0, 5, 10, 15, 17]
 
+ solução horrorosa mas é isso por enquanto
 */
 
 int minCostClimbingStairs(int* cost, int costSize){
@@ -15,6 +16,9 @@ int minCostClimbingStairs(int* cost, int costSize){
    
    int costOneStepIndexOne = 0;
    int costTwoStepsIndexOne = 0;
+
+   int minCostIndexOne = 0;
+   int minCostIndexZero = 0;
 
    //index 0 1 - 1
    for(int i = 0; i < costSize; i++){
@@ -33,17 +37,20 @@ int minCostClimbingStairs(int* cost, int costSize){
     costTwoStepsIndexOne += cost[i];
    }
 
+   if(costTwoStepsIndexOne < costOneStepIndexOne){
+    minCostIndexOne = costTwoStepsIndexOne;
+   } else {
+    minCostIndexOne = costOneStepIndexOne;
+   }
 
+   if(costTwoStepsIndexZero < costOneStepIndexZero){
+    minCostIndexZero = costTwoStepsIndexZero;
+   } else {
+    minCostIndexZero = costOneStepIndexZero;
+   }
 
-   printf("%d\n", costTwoStepsIndexOne);
-    printf("%d\n", costTwoStepsIndexZero);
-     printf("%d\n", costOneStepIndexOne);
-      printf("%d\n", costTwoStepsIndexZero);
-
+   return minCostIndexOne < minCostIndexZero ? minCostIndexOne : minCostIndexZero;
 }
-
-//ta errado
-
 
 int main(){
     int numsSize = 0;
