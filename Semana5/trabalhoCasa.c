@@ -11,22 +11,22 @@ bool JudgeCircle( char *moves ){
     int y = 0;
 
     for( int i = 0; i < qtdMoves; i++ ){
-        if(moves[i] == 'D'){
+        if( moves[i] == 'D' ){
             //ir pra baixo
             y -= 1;
         }
 
-        if(moves[i] == 'L'){
+        if( moves[i] == 'L' ){
             //ir pra esquerdad
             x -= 1;
         }
 
-        if(moves[i] == 'R'){
+        if( moves[i] == 'R' ){
             //direita
             x += 1;
         }
 
-        if(moves[i] == 'U'){
+        if( moves[i] == 'U' ){
             //cima
             y += 1;
         }
