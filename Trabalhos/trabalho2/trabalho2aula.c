@@ -114,7 +114,7 @@ bool Push(Lista *pLista, SNode *node, int index){
         pLista->qtdNodos++;
         return true;
     }
-\
+
     free(nodoAnterior);
     free(nodoAtual);
 
@@ -167,7 +167,3 @@ void PushPilha(Pilha *pilha, ValoresPilha *valorPilha){
     pilha->base = pilha->valores;
 }
 
-// Pessoa *pessoas;
-
-//     pilha->limite++;
-//     pessoas = (Pessoa *)malloc(sizeof(Pessoa) * pilha->limite);
