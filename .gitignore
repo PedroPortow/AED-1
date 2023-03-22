@@ -5,6 +5,7 @@
 .DS_Store
 exercicio3.dSYM/
 trabalho.dSYM/
+agenda.dSYM/
 trabalho
 exercicios
 maxSubArray
@@ -13,13 +14,14 @@ arithmeticSlices
 minCostClimbStairs
 tempCodeRunnerFile.c
 removeDuplicates
+lista.c 
+pilha.c
 removeDuplicates
-agenda
-agenda
 trabalhoCasa
 trabalhoCasa
 listaEncadeada
 listaEncadeada
-
+lista
+pilha
 exercicioPilha
 
