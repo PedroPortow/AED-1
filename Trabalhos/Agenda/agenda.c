@@ -87,12 +87,16 @@ int main(){
         switch(*(int *)(pBuffer)){
             case 1:
             {
+                int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
+                pBuffer = realloc(pBuffer, TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE + (PESSOA * (*qtdPessoas + 1)));
                 PushPessoa(pBuffer);
                 break;
             }
             case 2:
             {
+                int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
                 RemoverPessoa(pBuffer);
+                pBuffer = realloc(pBuffer, TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE + (PESSOA * (*qtdPessoas)));
                 break;
             }
             case 3:
@@ -112,12 +116,10 @@ int main(){
             }
             case 6:
             {
-                ResetPessoas(pBuffer);
                 free(pBuffer);
                 exit(1);
             }
         }
-
     } while (*(int *)(pBuffer) != 7);
 
   return 0;
@@ -161,8 +163,7 @@ void PushPessoa( void *pBuffer ){
 
         //quando esse loop parar, vai ter a posição pra inserir essa pessoa
         while(pAtual != NULL){
-            if(strcmp((char *) pAtual, (char *) pessoa) > 0){
-                printf("xota");
+            if(strcmp((char *) pessoa, (char *) pAtual) < 0){
                 break;
             }
             pAnterior = pAtual;
@@ -247,7 +248,6 @@ void RemoverPessoa(void *pBuffer){
         pAnterior = pessoa anterior a que tem que ser removida
         tem que arrumar o ponteiro da pessoa depois tbm
     */
-
 }
 
 void ListarPessoas(void *pBuffer){
@@ -286,14 +286,15 @@ void ResetPessoas(void *pBuffer){
 
     void *pAtual = *head;
     int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
-    *qtdPessoas = 0;
 
     while (pAtual != NULL) {
         void **pProximaPessoa = (void **)(pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **));
-        pAtual = *pProximaPessoa;
         void *pFree = pAtual;
+        pAtual = *pProximaPessoa;
         free(pFree);
+        pFree = NULL;
     }
+    *qtdPessoas = 0;
 }
 
 void BuscarPessoa( void *pBuffer ){
