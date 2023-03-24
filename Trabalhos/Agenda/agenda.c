@@ -329,10 +329,8 @@ void BuscarPessoa( void *pBuffer ){
             break;
         }
 
-        
         pAnterior = pAtual;
         pAtual = *pProximaPessoa;
     }
-
     printf( "Pessoa não encontrada na agenda!\n" );
 }
