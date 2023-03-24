@@ -21,37 +21,34 @@ Somente essa base de dados pode ficar fora do buffer principal, ou seja, pode us
         NOME DA PESSOA (char * 12)
         IDADE DA PESSOA (int)
         TELEFONE DA PESSOA (int)
-        ponteiro pra proxima? 
-        ponteiro pra antes?
+        ponteiro pra proxima
+        ponteiro pra antes
 
         da pra fazer esses dois serem um ponteiro pra ponteiro
         pessoa.ponteiro -> pessoa2.ponteiro ...
 
-
                 PESSOA
          NOME | IDADE | TELEFONE  | pPessoaAnterior | pProximaPessoa
-    tamanho pra acessar esses 2 ponteiros em uma tem q ser definido 
-    \
+    tamanho pra acessar esses 2 ponteiros em uma pessoa tem q ser definido 
     
                                           VAI SER O NOME
     pBuffer = OPCAO | CONTAGEM PESSOAS | PESSOA SER REMOVIDA | PESSOAS..
 */
 
-#define TAMANHO_OPCAO (sizeof(int)) //opcao do menu
-#define TAMANHO_CONTADOR (sizeof(int)) //CONTAGEM PESSOAS
-#define TAMANHO_REMOVE (sizeof(char) * 12) // PESSOA A SER REMOVIDA
+#define TAMANHO_OPCAO ( sizeof(int) ) //opcao do menu
+#define TAMANHO_CONTADOR (sizeof(int) ) //CONTAGEM PESSOAS
+#define TAMANHO_REMOVE (sizeof(char) * 12 ) // PESSOA A SER REMOVIDA
 
+#define TAMANHO_NOME ( sizeof(char) * 12 )
+#define TAMANHO_IDADE ( sizeof(int) ) 
+#define TAMANHO_TELEFONE ( sizeof(int) )
 
-#define TAMANHO_NOME (sizeof(char) * 12)
-#define TAMANHO_IDADE (sizeof(int))
-#define TAMANHO_TELEFONE (sizeof(int))
+#define TAMANHO_PONTEIROS_ORDEM ( sizeof(void **) * 2 ) //pro malloc
 
-#define TAMANHO_PONTEIROS_ORDEM (sizeof(void **) * 2) //pro malloc
+#define PESSOA ( TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + TAMANHO_PONTEIROS_ORDEM ) //tamanho de uma PESSOA
 
-#define PESSOA TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + TAMANHO_PONTEIROS_ORDEM //tamanho de uma PESSOA
-
-#define P_NEXT_PERSON (TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **)) //pra acessar na pessoa, o ponteiro ** que aponta pra proxima
-#define P_PREVIOUS_PERSON (TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE)  //pra acessar na pessoa, o ponteiro ** que aponta pra ANTERIOR
+#define P_NEXT_PERSON ( TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **) ) //pra acessar na pessoa, o ponteiro ** que aponta pra proxima
+#define P_PREVIOUS_PERSON ( TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE )  //pra acessar na pessoa, o ponteiro ** que aponta pra ANTERIOR
 
 void PushPessoa( void *pBuffer );
 void RemoverPessoa( void *pBuffer );
@@ -69,65 +66,65 @@ void Menu() {
     printf( "6) Sair \n" );
 }
 
-int main(){
+int main() {
     void *pBuffer = NULL;
-    pBuffer = malloc(TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE );
-    *(int *)(pBuffer + TAMANHO_OPCAO) = 0; //INICIALIZAND OCONTADOR DE PESSOAS COMO 0
+    pBuffer = malloc( TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE );
+    *(int *)( pBuffer + TAMANHO_OPCAO ) = 0; //INICIALIZAND OCONTADOR DE PESSOAS COMO 0
 
-    if(!pBuffer){
-        printf("Erro na alocacao de memoria :(");
+    if( !pBuffer ) {
+        printf( "Erro na alocacao de memoria" );
         exit(1);
     }
 
-    do{
+    do {
         Menu();
-        scanf("%d", (int *)(pBuffer));
+        scanf( "%d", (int *)( pBuffer ) );
         getchar();
 
-        switch(*(int *)(pBuffer)){
+        switch( *(int *)( pBuffer ) ) {
             case 1:
             {
-                int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
-                pBuffer = realloc(pBuffer, TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE + (PESSOA * (*qtdPessoas + 1)));
-                PushPessoa(pBuffer);
+                int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO );
+                pBuffer = realloc( pBuffer, TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE + ( PESSOA * ( *qtdPessoas + 1 )) );
+                PushPessoa( pBuffer );
                 break;
             }
             case 2:
             {
                 int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
-                RemoverPessoa(pBuffer);
-                pBuffer = realloc(pBuffer, TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE + (PESSOA * (*qtdPessoas)));
+                RemoverPessoa( pBuffer );
+                pBuffer = realloc( pBuffer, TAMANHO_OPCAO + TAMANHO_CONTADOR + TAMANHO_REMOVE + (PESSOA * ( *qtdPessoas) ) );
                 break;
             }
             case 3:
             {
-                ListarPessoas(pBuffer);
+                ListarPessoas( pBuffer );
                 break;
             }
             case 4:
             {
-                BuscarPessoa(pBuffer);
+                BuscarPessoa( pBuffer );
                 break;
             }
             case 5:
             {
-                ResetPessoas(pBuffer);
+                ResetPessoas( pBuffer );
                 break;
             }
             case 6:
             {
-                free(pBuffer);
+                free( pBuffer );
                 exit(1);
             }
         }
-    } while (*(int *)(pBuffer) != 7);
+    } while ( *(int *)( pBuffer) != 7 );
 
   return 0;
 }
 
-void PushPessoa( void *pBuffer ){
+void PushPessoa( void *pBuffer ) {
     int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
-    void **head = (void **) (pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE);
+    void **head = (void **)( pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE );
 
     /*
                         PESSOA
@@ -136,104 +133,104 @@ void PushPessoa( void *pBuffer ){
     */
 
     //CRIANDO UM "NODO" PRA PESSOA
-    void *pessoa = malloc(PESSOA); 
+    void *pessoa = malloc( PESSOA ); 
 
-    if(!pessoa){
-        printf("erro na alocacao");
+    if( !pessoa ){
+        printf( "erro na alocacao" );
         exit(1);
     }
 
-    printf("Nome da pessoa: ");
-    scanf("%s", (char *) pessoa); //nome vai ser escrito no primeiro endereço de memoria que vai ser o nome :)
+    printf( "Nome da pessoa: " );
+    scanf( "%s", (char *) pessoa ); //nome vai ser escrito no primeiro endereço de memoria que vai ser o nome :)
 
-    printf("Idade: ");
-    scanf("%d", &*(int *)(pessoa + TAMANHO_NOME)); //vai ser escrito depois do nome
+    printf( "Idade: " );
+    scanf( "%d", &*(int *)( pessoa + TAMANHO_NOME )); //vai ser escrito depois do nome
 
-    printf("Telefone: ");
-    scanf("%d", &*(int *)(pessoa + TAMANHO_NOME + TAMANHO_IDADE)); //vai ser escrito depois do nome
+    printf( "Telefone: " );
+    scanf("%d", &*(int *)( pessoa + TAMANHO_NOME + TAMANHO_IDADE )); //vai ser escrito depois do nome
 
     // CASO DE NÃO TER PESSOA AINDA
-    if(*qtdPessoas == 0){
-        *(void **)(pessoa + P_PREVIOUS_PERSON) = NULL; 
-        *(void **)(pessoa + P_NEXT_PERSON) = NULL;
+    if( *qtdPessoas == 0) {
+        *(void **)( pessoa + P_PREVIOUS_PERSON ) = NULL; 
+        *(void **)( pessoa + P_NEXT_PERSON ) = NULL;
         *head = pessoa;
     } else {
         void *pAtual = *head;
         void *pAnterior = NULL;
 
         //quando esse loop parar, vai ter a posição pra inserir essa pessoa
-        while(pAtual != NULL){
-            if(strcmp((char *) pessoa, (char *) pAtual) < 0){
+        while( pAtual != NULL ){
+            if( strcmp((char *) pessoa, (char *) pAtual) < 0 ){
                 break;
             }
             pAnterior = pAtual;
-            void **pProximaPessoa = (void **)(pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **));
+            void **pProximaPessoa = (void **)( pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **) );
             pAtual = *pProximaPessoa;
         }
 
         //inserção no inicio da lista
-        if(pAtual == *head){
-            *(void **)(pessoa + P_PREVIOUS_PERSON) = NULL; // NÃO VAI TER PESSOA ANTES DESSA
-            *(void **)(pessoa + P_NEXT_PERSON) = *head; // VAI APONTAR PRA PESSOA QUE TA NO HEAD AGORA
-            *(void **)(*head + P_PREVIOUS_PERSON) = pessoa; // A PESSOA QUE TA NO HEAD NO MOMENTO, VAI APONTAR PRA ESSA QUE VAI SER INSERIDA ANTES
+        if ( pAtual == *head ) {
+            *(void **)( pessoa + P_PREVIOUS_PERSON ) = NULL; // NÃO VAI TER PESSOA ANTES DESSA
+            *(void **)( pessoa + P_NEXT_PERSON ) = *head; // VAI APONTAR PRA PESSOA QUE TA NO HEAD AGORA
+            *(void **)( *head + P_PREVIOUS_PERSON ) = pessoa; // A PESSOA QUE TA NO HEAD NO MOMENTO, VAI APONTAR PRA ESSA QUE VAI SER INSERIDA ANTES
             *head = pessoa;
-        } else if(pAtual == NULL){ // INSERÇÃO FIM DA LISTA
+        } else if ( pAtual == NULL ){ // INSERÇÃO FIM DA LISTA
             //aqui pAnterior vai ser a proxima pessoa
-            *(void **)(pessoa + P_PREVIOUS_PERSON) = pAnterior; // vai apontar pro ultimo elemento atuaçmente na lista, que vai ser o penultimo agr
-            *(void **)(pessoa + P_NEXT_PERSON) = NULL; // não vai ter próxima pessoa
-            *(void **)(pAnterior + P_NEXT_PERSON) = pessoa; // ajustando ponteiro da pessoa anterior pra apontar pra essa nova pessoa
-        } else{ //entre duas pessoas
-            *(void **)(pessoa + P_NEXT_PERSON) = pAtual;
-            *(void **)(pessoa + P_PREVIOUS_PERSON) = pAnterior;
-            *(void **)(pAnterior + P_NEXT_PERSON) = pessoa;
-            *(void **)(pAtual + P_PREVIOUS_PERSON) = pessoa;
+            *(void **)( pessoa + P_PREVIOUS_PERSON ) = pAnterior; // vai apontar pro ultimo elemento atuaçmente na lista, que vai ser o penultimo agr
+            *(void **)( pessoa + P_NEXT_PERSON ) = NULL; // não vai ter próxima pessoa
+            *(void **)( pAnterior + P_NEXT_PERSON ) = pessoa; // ajustando ponteiro da pessoa anterior pra apontar pra essa nova pessoa
+        } else { //entre duas pessoas
+            *(void **)( pessoa + P_NEXT_PERSON ) = pAtual;
+            *(void **)( pessoa + P_PREVIOUS_PERSON ) = pAnterior;
+            *(void **)( pAnterior + P_NEXT_PERSON ) = pessoa;
+            *(void **)( pAtual + P_PREVIOUS_PERSON ) = pessoa;
         }
     }
 
-    (*qtdPessoas)++;
+    ( *qtdPessoas )++;
 }
 
-void RemoverPessoa(void *pBuffer){
-    int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
-    void **head = (void **) (pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE);
-    char *pessoaRemover = (char *) (pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO);
+void RemoverPessoa( void *pBuffer ){
+    int *qtdPessoas = (int *) ( pBuffer + TAMANHO_OPCAO );
+    void **head = (void **) ( pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE );
+    char *pessoaRemover = (char *) ( pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO );
 
-    if(*qtdPessoas == 0){
-        printf("\nAgenda ta vazia!\n");
+    if( *qtdPessoas == 0 ){
+        printf( "\nAgenda ta vazia!\n" );
         return;
     }
 
-    printf("Nome para remover: ");
-    scanf("%s", (char *)pessoaRemover);
+    printf( "Nome para remover: " );
+    scanf( "%s", (char *)pessoaRemover );
 
     void *pAtual = *head;
     void *pAnterior = NULL;
 
     //quando esse loop parar, vai ter a posição pra remover
-    while(pAtual != NULL){
-        void **pProximaPessoa = (void **)(pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **));
+    while ( pAtual != NULL ) {
+        void **pProximaPessoa = (void **)( pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **) );
        
-        if(strcmp((char *) pAtual, (char *) pessoaRemover) == 0){
+        if( strcmp( (char *) pAtual, (char *) pessoaRemover ) == 0 ) {
             void *pNextDaPessoaRemover = *pProximaPessoa;
-            if(pAtual == *head && pNextDaPessoaRemover != NULL){ //pessoa do inicio ser removida, mas não tem só ela na lista
+            if ( pAtual == *head && pNextDaPessoaRemover != NULL ) { //pessoa do inicio ser removida, mas não tem só ela na lista
                 *(void **)(pNextDaPessoaRemover + P_PREVIOUS_PERSON) = NULL;
                 *head = pNextDaPessoaRemover;
                 pAtual = NULL;
-            } else if(pAtual == *head && pNextDaPessoaRemover == NULL){ //pessoa do inicio a ser removida, e só tem ela :)
+            } else if ( pAtual == *head && pNextDaPessoaRemover == NULL ) { //pessoa do inicio a ser removida, e só tem ela :)
                 pAtual = NULL;
-                free(*head);
-                free(pAtual);
-            } else if(pNextDaPessoaRemover == NULL){ // pessoa a ser removida é a ultima
-                *(void **)(pAnterior + P_NEXT_PERSON) = NULL;
+                free( *head );
+                free( pAtual );
+            } else if ( pNextDaPessoaRemover == NULL ) { // pessoa a ser removida é a ultima
+                *(void **)( pAnterior + P_NEXT_PERSON ) = NULL;
                 pAtual = NULL;
-                free(pAtual);
-            } else{
-                *(void **)(pAnterior + P_NEXT_PERSON) = pNextDaPessoaRemover;
-                *(void **)(pNextDaPessoaRemover + P_PREVIOUS_PERSON) = pAnterior;
-                free(pAtual);
+                free( pAtual );
+            } else {
+                *(void **)( pAnterior + P_NEXT_PERSON)  = pNextDaPessoaRemover;
+                *(void **)( pNextDaPessoaRemover + P_PREVIOUS_PERSON ) = pAnterior;
+                free( pAtual );
             }
 
-            (*qtdPessoas)--;
+            ( *qtdPessoas )--;
             return;
             break;
         }
@@ -250,48 +247,49 @@ void RemoverPessoa(void *pBuffer){
     */
 }
 
-void ListarPessoas(void *pBuffer){
-    int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
-    void **head = (void **) (pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE);
+void ListarPessoas( void *pBuffer ){
+    int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO );
+    void **head = (void **) ( pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE );
 
-    if (*qtdPessoas == 0) {
-        printf("\nAgenda ta vazia!\n");
+    if ( *qtdPessoas == 0 ) {
+        printf( "\nAgenda ta vazia!\n" );
         return;
     }
 
     void *pAtual = *head;
-    while (pAtual != NULL) {
-        char *nome = (char *)pAtual;
-        int *idade = (int *)(pAtual + TAMANHO_NOME);
-        int *telefone = (int *)(pAtual + TAMANHO_NOME + TAMANHO_IDADE);
-        void **pProximaPessoa = (void **)(pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **));
 
-        printf("-----------------\n");
-        printf("Nome: %s\n", nome);
-        printf("Idade: %d\n", *idade);
-        printf("Telefone: %d\n", *telefone);
-        printf("-----------------\n");
+    while ( pAtual != NULL ) {
+        char *nome = (char *)pAtual;
+        int *idade = (int *)( pAtual + TAMANHO_NOME );
+        int *telefone = (int *)( pAtual + TAMANHO_NOME + TAMANHO_IDADE );
+        void **pProximaPessoa = (void **)( pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **) );
+
+        printf( "-----------------\n" );
+        printf( "Nome: %s\n", nome );
+        printf( "Idade: %d\n", *idade );
+        printf( "Telefone: %d\n", *telefone );
+        printf( "-----------------\n" );
 
         pAtual = *pProximaPessoa;
     }
 }
 
-void ResetPessoas(void *pBuffer){ 
-    void **head = (void **) (pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE);
+void ResetPessoas( void *pBuffer ){ 
+    void **head = (void **) ( pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE );
 
-    if(!head){
-        printf("Ta vazia \n");
+    if( !head ){
+        printf( "Ta vazia \n" );
         return;
     }
 
     void *pAtual = *head;
-    int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
+    int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO );
 
-    while (pAtual != NULL) {
-        void **pProximaPessoa = (void **)(pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **));
+    while ( pAtual != NULL ) {
+        void **pProximaPessoa = (void **)( pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **) );
         void *pFree = pAtual;
         pAtual = *pProximaPessoa;
-        free(pFree);
+        free( pFree );
         pFree = NULL;
     }
     *qtdPessoas = 0;
@@ -299,41 +297,42 @@ void ResetPessoas(void *pBuffer){
 
 void BuscarPessoa( void *pBuffer ){
     int *qtdPessoas = (int *)( pBuffer + TAMANHO_OPCAO);
-    void **head = (void **) (pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE);
-    char *pessoaProcurar = (char *) (pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO);
+    void **head = (void **) ( pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO + TAMANHO_REMOVE );
+    char *pessoaProcurar = (char *) ( pBuffer + TAMANHO_CONTADOR + TAMANHO_OPCAO );
 
-    if(*qtdPessoas == 0){
-        printf("\nAgenda ta vazia!\n");
+    if( *qtdPessoas == 0 ){
+        printf( "\nAgenda ta vazia!\n" );
         return;
     }
 
-    printf("Nome para procurar: ");
-    scanf("%s", (char *)pessoaProcurar);
+    printf( "Nome para procurar: " );
+    scanf( "%s", (char *)pessoaProcurar );
 
     void *pAtual = *head;
     void *pAnterior = NULL;
 
-    while(pAtual != NULL){
-        void **pProximaPessoa = (void **)(pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **));
+    while( pAtual != NULL ) {
+        void **pProximaPessoa = (void **)( pAtual + TAMANHO_NOME + TAMANHO_IDADE + TAMANHO_TELEFONE + sizeof(void **) );
        
-        if(strcmp((char *) pAtual, (char *) pessoaProcurar) == 0){
+        if ( strcmp( (char *) pAtual, (char *) pessoaProcurar ) == 0 ) {
             char *nome = (char *)pAtual;
-            int *idade = (int *)(pAtual + TAMANHO_NOME);
-            int *telefone = (int *)(pAtual + TAMANHO_NOME + TAMANHO_IDADE);
+            int *idade = (int *)( pAtual + TAMANHO_NOME );
+            int *telefone = (int *)( pAtual + TAMANHO_NOME + TAMANHO_IDADE );
 
-            printf("-----------------\n");
-            printf("Nome: %s\n", nome);
-            printf("Idade: %d\n", *idade);
-            printf("Telefone: %d\n", *telefone);
-            printf("-----------------\n");
+            printf( "-----------------\n" );
+            printf( "Nome: %s\n", nome );
+            printf( "Idade: %d\n", *idade );
+            printf( "Telefone: %d\n", *telefone );
+            printf( "-----------------\n" );
             
             return;   
             break;
         }
 
-        printf("Pessoa não encontrada na agenda\n");
         
         pAnterior = pAtual;
         pAtual = *pProximaPessoa;
     }
+
+    printf( "Pessoa não encontrada na agenda!\n" );
 }
