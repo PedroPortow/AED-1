@@ -31,11 +31,11 @@ int main(){
     // Insert feito na mão, usado no exemplo do problema
 
     //TESTE 1: 
-    // root = createNode(1);
-    // root->pLeft = createNode(2);
-    // root->pRight = createNode(3);
-    // root->pLeft->pLeft = createNode(4);
-    // root->pLeft->pRight = createNode(5);
+    root = createNode(1);
+    root->pLeft = createNode(2);
+    root->pRight = createNode(3);
+    root->pLeft->pLeft = createNode(4);
+    root->pLeft->pRight = createNode(5);
 
     //TESTE 2: 
     // root = createNode(1);
@@ -111,10 +111,10 @@ int diameterOfBinaryTree( Node* root ){
     int rightHeight = nodeHeight( root->pRight );
 
     int leftPathFromRoot = rootLeftPath( root->pLeft ); 
-    int rightPathFromRoot = rootRightPath( root->pLeft ); 
+    int rightPathFromRoot = rootRightPath( root->pRight ); 
 
 
-    return maxValue(leftHeight + rightHeight + 1, maxValue(leftPathFromRoot, rightPathFromRoot));
+    return maxValue(leftHeight + rightHeight, maxValue(leftPathFromRoot, rightPathFromRoot));
 }
 
 int rootLeftPath( Node* treeNode ) {
