@@ -10,10 +10,14 @@ typedef struct Node{
 Node* createNode(int key);
 int calculateHeight(Node* node);
 int calculateFb(Node* treeNode);
+
+Node* balanceTree(Node *treeNode);
 Node* RSE (Node* node);
 Node* RSD (Node* node);
+
 Node* insert(Node* treeNode, int key);
-Node* balanceTree(Node *treeNode);
+Node* removeNode(Node* treeNode, int key);
+
 void print_root(Node* root);
 void print_preorder(Node* node);
 void print_central(Node* node);
@@ -22,19 +26,13 @@ void print_postorder(Node* node);
 int main(){
     Node* root = NULL;
 
-    root = insert(root, 7);
+    root = insert(root, 2);
     printf("%d\n", root->key);
-    root = insert(root, 6);
+    root = insert(root, 4);
     printf("%d\n", root->key);
     root = insert(root, 5);
     printf("%d\n", root->key);
-        root = insert(root, 4);
-    printf("%d\n", root->key);
-        root = insert(root, 3);
-    printf("%d\n", root->key);
-        root = insert(root, 2);
-    printf("%d\n", root->key);
-        root = insert(root, 1);
+    root = removeNode(root, 4);
     printf("%d\n", root->key);
 
     printf("preorder: ");
@@ -42,13 +40,87 @@ int main(){
     printf("\n");
     printf("central: ");
     print_central(root);
-        printf("\n");
+    printf("\n");
     printf("postorder: ");
     print_postorder(root);
     printf("\n");
     printf("raizzz: ");
     printf("%d", root->key);
     printf("\n");
+}
+
+Node* removeNode(Node* treeNode, int key){
+    
+    if(treeNode == NULL){
+        printf("não achou na arvore ou ta vazio");
+        return treeNode;
+    }
+
+
+    if(key < treeNode->key){
+        treeNode->pLeft = removeNode(treeNode->pLeft, key); // percorrendo pra esquerda
+    } else if( key > treeNode->key){
+        treeNode->pRight = removeNode(treeNode->pRight, key);   // percorrendo pra direita
+    } else {       //achou o que remover
+        Node* nodeAux;
+
+        if( treeNode->pRight == NULL && treeNode->pLeft == NULL ){
+            printf("vizeira");
+            nodeAux = treeNode;
+            treeNode = NULL;    // se for folha só
+            free(nodeAux);
+        } else if ( treeNode-> pRight == NULL ){ // TEM FILHO PRA ESQUERDA
+            printf("logou");
+            nodeAux = treeNode;
+            treeNode = treeNode->pLeft;
+            free(nodeAux);
+        } else if ( treeNode-> pLeft == NULL ){ // TEM FILHO PRA DIREITA
+            nodeAux = treeNode;
+            treeNode = treeNode->pRight;
+            free(nodeAux);
+            printf("ronaldo");
+        } else { // tem fi pros dois lados :(
+            // ->trocar pelo nó mais a direita da subarvore esquerda (pLeft) (vai ser uma folha)
+            // ->trocar pelo nó mais a esquerda da subarvore direita (pRight) (vai ser uma folha)
+
+            /*  REMOVENDO 5
+                        5
+                2              7
+                            6       (filho mais a esquerda)
+            -------------------------------------------------------
+                        
+                        6
+                2               7
+            
+            */
+               printf("pito");
+
+            nodeAux = treeNode->pRight;
+
+            while(nodeAux->pLeft != NULL){
+                nodeAux = nodeAux->pLeft;
+            }
+
+            /*  left dele ta certo, já ta apontando pro 2
+
+                right ta apontando pro 7 (ta certo)
+
+                porém, nesse caso o left do 7 ta apontando pra um nó que não deve existir mais.
+
+                no entanto, pode ter um caso que o nó mais a esquerda da subarvore a direita do nó a ser removido
+                está mais níveis abaixo do seu filho mais a direita, logo a função tem que ser chamada novamente
+                pra ir percorrendo a arvore, assim cobrindo todos os casos :)
+            */
+
+            treeNode->key = nodeAux->key;     // folha vai passar a ser o nó removido
+            treeNode->pRight = removeNode(treeNode->pRight, nodeAux->key);      // vai começar a percorrer a partir do filho da direita (no caso o 7)
+                                                                                // procurando o nó com o valor do nó que foi "removido" (vai ta no Aux aqui)
+        }
+    }
+
+
+    // Agora tem que checar o balanceamento...
+    return balanceTree(treeNode);
 }
 
 Node* createNode(int key){
