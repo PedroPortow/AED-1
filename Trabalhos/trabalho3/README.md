@@ -1,4 +1,4 @@
-# Trabalho Agenda
+# Trabalho 3 (Arvores binárias)
 **Nome**: Pedro Luís Rodrigues Porto
 **Discord**: Pedro Porto #2950
 
