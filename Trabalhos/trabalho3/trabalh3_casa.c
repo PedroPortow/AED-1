@@ -31,26 +31,29 @@ int main(){
     // Insert feito na mão, usado no exemplo do problema
 
     //TESTE 1: 
-    root = createNode(1);
-    root->pLeft = createNode(2);
-    root->pRight = createNode(3);
-    root->pLeft->pLeft = createNode(4);
-    root->pLeft->pRight = createNode(5);
-
-    //TESTE 2: 
     // root = createNode(1);
     // root->pLeft = createNode(2);
     // root->pRight = createNode(3);
+    // root->pLeft->pLeft = createNode(4);
+    // root->pLeft->pRight = createNode(5);
+
+    //TESTE 2: 
+    root = createNode(1);
+    root->pLeft = createNode(2);
+    root->pRight = createNode(3);
     
-    // root->pLeft->pLeft = createNode(20);
+    root->pLeft->pLeft = createNode(20);
 
-    // root->pLeft->pRight = createNode(20);
-    // root->pLeft->pRight->pRight = createNode(20);
-    // root->pLeft->pRight->pRight->pRight = createNode(20);
+    root->pLeft->pRight = createNode(20);
+    root->pLeft->pRight->pRight = createNode(20);
+    root->pLeft->pRight->pRight->pRight = createNode(20);
 
-    // root->pLeft->pLeft->pLeft = createNode(4);
-    // root->pLeft->pLeft->pLeft->pRight = createNode(22);
+    root->pLeft->pLeft->pLeft = createNode(4);
+    root->pLeft->pLeft->pLeft->pRight = createNode(22);
 
+    //TESTE 3:
+    // root = createNode(1);
+    // root->pRight = createNode(3);
 
     printf("\nArvore em preordem: ");
     printPreOrder(root);
@@ -110,28 +113,12 @@ int diameterOfBinaryTree( Node* root ){
     int leftHeight = nodeHeight( root->pLeft );
     int rightHeight = nodeHeight( root->pRight );
 
-    int leftPathFromRoot = rootLeftPath( root->pLeft ); 
-    int rightPathFromRoot = rootRightPath( root->pRight ); 
-
+    int leftPathFromRoot = diameterOfBinaryTree(root->pLeft);
+    int rightPathFromRoot = diameterOfBinaryTree(root->pRight);
 
     return maxValue(leftHeight + rightHeight, maxValue(leftPathFromRoot, rightPathFromRoot));
 }
 
-int rootLeftPath( Node* treeNode ) {
-    if ( treeNode == NULL ) {
-        return 0;
-    }
-    int path = rootLeftPath( treeNode->pLeft );
-    return path;
-}
-
-int rootRightPath( Node* treeNode ) {
-    if ( treeNode == NULL ) {
-        return 0;
-    }
-    int path = rootRightPath( treeNode->pRight );
-    return path;
-}
 
 int nodeHeight( Node* treeNode ) {
 
