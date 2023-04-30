@@ -27,7 +27,7 @@ void selectionSortAsc( int nums[], int size ){
         int minElementIndex = i;
 
         for( int j = i + 1; j < size; j++ ) {
-            if( nums[j] < nums[i] ){  
+            if( nums[j] < nums[i] ){   
                 minElementIndex = j; 
             } else {
                 minElementIndex = i;
@@ -74,6 +74,7 @@ int* maxSubsequence( int* nums, int numsSize, int k, int* returnSize ) {
 
     free( arrNotSorted );
     free( arrIndexes );
+    
 
     return arrReturn;
 }
@@ -123,11 +124,14 @@ int main(){
                 answer = maxSubsequence( nums, numsSize, k, returnSize );
 
                 resultado( answer, k );
+                free( returnSize );
+                free( answer );
+                free( nums );
                 break;
             }
             
             case 2:
-              {
+            {
                 
                 int numsSize = 4;
                 int values[4] = {-1, -2, 3, 4};
@@ -143,27 +147,32 @@ int main(){
                 answer = maxSubsequence( nums, numsSize, k, returnSize );
 
                 resultado( answer, k );
+                free( returnSize );
+                free( answer );
+                free( nums );
                 break;
-              }
+            }
             case 3:
-                {
-                    int numsSize = 4;
-                    int values[4] = {3, 4, 3, 3};
-                    int k = 2;
-                    int* nums = malloc( sizeof(int) * numsSize );
-                    int* answer = NULL;
-                    int* returnSize = malloc( sizeof(int) );
-                    
-                    for( int i = 0; i < numsSize; i++ ) {
-                        nums[i] = values[i];
-                    }
+            {
+                int numsSize = 4;
+                int values[4] = {3, 4, 3, 3};
+                int k = 2;
+                int* nums = malloc( sizeof(int) * numsSize );
+                int* answer = NULL;
+                int* returnSize = malloc( sizeof(int) );
+                
+                for( int i = 0; i < numsSize; i++ ) {
+                    nums[i] = values[i];
+                }
 
-                    answer = maxSubsequence( nums, numsSize, k, returnSize );
+                answer = maxSubsequence( nums, numsSize, k, returnSize );
 
-                    resultado( answer, k );
-                    break;
-              }
-            
+                resultado( answer, k );
+                free( returnSize );
+                free( answer );
+                free( nums );
+                break;
+            }
             default:
                 break;
         }
