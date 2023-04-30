@@ -49,16 +49,16 @@ int* maxSubsequence( int* nums, int numsSize, int k, int* returnSize ) {
 
     // selecionar os k primeiros elementos do array ordenado
     *returnSize = k;
-    int* arrReturn = malloc( sizeof(int) * k );
+    int* arrAux = malloc( sizeof(int) * k );
     for( int i = 0; i < k; i++ ){
-        arrReturn[i] = nums[i];
+        arrAux[i] = nums[i];
     }
 
     // obter os índices correspondentes aos maiores elementos selecionados
     int* arrIndexes = malloc( sizeof(int) * k );
     for( int i = 0; i < k; i++ ) {
         for( int j = 0; j < numsSize; j++ ) {
-            if(arrReturn[i] == arrNotSorted[j]) {
+            if(arrAux[i] == arrNotSorted[j]) {
                 arrIndexes[i] = j;
             }
         }
@@ -67,16 +67,17 @@ int* maxSubsequence( int* nums, int numsSize, int k, int* returnSize ) {
     // ordenar os indices em ordem crescente
     selectionSortAsc( arrIndexes, k );
 
+    nums = realloc(nums, sizeof(int) * k);
     // passar os valores na posicao correta
     for ( int i = 0; i < k; i++ ) {
-        arrReturn[i] = arrNotSorted[arrIndexes[i]];
+        nums[i] = arrNotSorted[arrIndexes[i]];
     }
 
     free( arrNotSorted );
     free( arrIndexes );
+    free( arrAux );
     
-
-    return arrReturn;
+    return nums;
 }
 
 void menu(){
@@ -126,7 +127,6 @@ int main(){
                 resultado( answer, k );
                 free( returnSize );
                 free( answer );
-                free( nums );
                 break;
             }
             
@@ -149,7 +149,6 @@ int main(){
                 resultado( answer, k );
                 free( returnSize );
                 free( answer );
-                free( nums );
                 break;
             }
             case 3:
@@ -170,7 +169,6 @@ int main(){
                 resultado( answer, k );
                 free( returnSize );
                 free( answer );
-                free( nums );
                 break;
             }
             default:
